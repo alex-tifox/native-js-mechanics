@@ -103,4 +103,41 @@ window.addEventListener('DOMContentLoaded', function() {
         more.classList.remove('more-splash');
         document.body.style.overflow = '';
     });
+
+    // Delegation to all description buttons
+
+    // let descriptionBtn = document.querySelectorAll('.description-btn');
+    
+    // function eventListenerMoreInfo() {
+    //     for (let i = 0; i < descriptionBtn.length; i++) {
+    //         descriptionBtn[i].addEventListener('click', function() {
+    //             overlay.style.display = 'block';
+    //             this[i].classList.add('more-splash');
+    //             document.body.style.overflow = 'hidden';
+    //         });
+    //     }
+    // }
+
+    class Options {
+        constructor(height, width, bg, fontSize) {
+            this.height = height;
+            this.width = width;
+            this.bg = bg;
+            this.fontSize = fontSize;
+        }
+
+        createDiv() {
+            let elem = document.createElement('div');
+            document.body.appendChild(elem);
+            let param = `height:${this.height}px; width:${this.width}px; background-color:${this.bg}; font-size:${this.fontSize}px; text-align:${this.textAlign}`;
+            elem.style.cssText = param;
+        }
+    }
+
+    let createdDiv = new Options(200, 300, 'red', 40),
+        main = document.querySelector('.main');
+
+    createdDiv.createDiv();
+    main.appendChild(createdDiv);
+    console.log(createdDiv);
 });
