@@ -118,26 +118,67 @@ window.addEventListener('DOMContentLoaded', function() {
     //     }
     // }
 
-    class Options {
-        constructor(height, width, bg, fontSize) {
-            this.height = height;
-            this.width = width;
-            this.bg = bg;
-            this.fontSize = fontSize;
+    // class Options {
+    //     constructor(height, width, bg, fontSize) {
+    //         this.height = height;
+    //         this.width = width;
+    //         this.bg = bg;
+    //         this.fontSize = fontSize;
+    //     }
+
+    //     createDiv() {
+    //         let elem = document.createElement('div');
+    //         document.body.appendChild(elem);
+    //         let param = `height:${this.height}px; width:${this.width}px; background-color:${this.bg}; font-size:${this.fontSize}px; text-align:${this.textAlign}`;
+    //         elem.style.cssText = param;
+    //     }
+    // }
+
+    // let createdDiv = new Options(200, 300, 'red', 40),
+    //     main = document.querySelector('.main');
+
+    // createdDiv.createDiv();
+    // console.log(createdDiv);
+
+    // Form
+
+    let message = {
+        loading: 'Loading',
+        success: 'Thank you',
+        failure: 'Something went wrong'
+    };
+
+    let form = document.querySelector('.main-form'),
+        input = form.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
+
+    statusMessage.classList.add('status');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-Type', 'application/x-www-form-unlencoded');
+
+        let formData = new FormData(form);
+        request.send(formData);
+
+        request.addEventListener('readystatechange', function() {
+            if (request.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if (request.readyState === 4 && request.status == 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+
+        for (let i =0; i < input.length; i++) {
+            input[i].value = '';
         }
+    });
 
-        createDiv() {
-            let elem = document.createElement('div');
-            document.body.appendChild(elem);
-            let param = `height:${this.height}px; width:${this.width}px; background-color:${this.bg}; font-size:${this.fontSize}px; text-align:${this.textAlign}`;
-            elem.style.cssText = param;
-        }
-    }
-
-    let createdDiv = new Options(200, 300, 'red', 40),
-        main = document.querySelector('.main');
-
-    createdDiv.createDiv();
-    main.appendChild(createdDiv);
-    console.log(createdDiv);
+    
 });
